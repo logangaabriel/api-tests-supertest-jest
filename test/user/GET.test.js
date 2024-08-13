@@ -1,5 +1,4 @@
 const request = require('supertest')
-require('dotenv').config()
 
 describe('Serverest API', () => {
   describe('GET /usuarios', () => {
