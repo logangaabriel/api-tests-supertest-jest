@@ -1,0 +1,41 @@
+name: API Tests and Report Generation
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - name: Install dependencies
+        run: npm install
+      - name: Run tests
+        env:
+          USER_EMAIL: ${{ secrets.USER_EMAIL }}
+          USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
+          BASE_URL: ${{ secrets.BASE_URL }}
+        run: npm test
+
+  deploy:
+    runs-on: ubuntu-22.04
+    needs: test
+    if: success()
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Deploy report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.TOKEN }}
+          publish_dir: ./reports
+          publish_branch: gh-pages
