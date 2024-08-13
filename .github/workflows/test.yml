@@ -23,7 +23,6 @@ jobs:
         env:
           USER_EMAIL: ${{ secrets.USER_EMAIL }}
           USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
-          BASE_URL: ${{ secrets.BASE_URL }}
         run: npm test
 
   deploy:
@@ -33,6 +32,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      - name: Rename report file
+        run: mv ./reports/test-reporter.html ./reports/index.html
       - name: Deploy report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
