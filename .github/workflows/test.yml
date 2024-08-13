@@ -33,7 +33,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Rename report file
-        run: mv ./reports/test-reporter.html ./reports/index.html
+        run: mv ./reports/test-report.html ./reports/index.html
       - name: Deploy report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
